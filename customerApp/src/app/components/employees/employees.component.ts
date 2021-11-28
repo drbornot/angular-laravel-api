@@ -4,6 +4,9 @@ import {DataService} from "../../service/data.service";
 
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import {delay} from "rxjs/operators";
+import {lastValueFrom} from "rxjs";
+import {parseJson} from "@angular/cli/utilities/json-file";
 
 @Component({
   selector: 'app-employees',
@@ -17,16 +20,20 @@ export class EmployeesComponent implements OnInit {
   modalRef = new BsModalRef();
   selectedEmployee: any;
 
+  response: any;
+
   constructor(private modalService: BsModalService, private dataService: DataService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getEmployeesData();
+    this.getEmployeesData().then(r => {
+      return ;
+    });
   }
 
-  getEmployeesData() {
-    this.dataService.getData().subscribe(res => {
-      this.employees = res;
-    });
+  async getEmployeesData() {
+    const response$ = this.dataService.getData();
+    this.response = await lastValueFrom(response$);
+    this.employees = this.response.data;
   }
 
   openModal(template: TemplateRef<any>, id: number) {

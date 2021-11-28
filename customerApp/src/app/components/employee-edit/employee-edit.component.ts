@@ -47,19 +47,19 @@ export class EmployeeEditComponent implements OnInit {
 
   async getDataById() {
     this.message = "Fetching...";
-     const response$ = this.dataService.getDataById(this.id).pipe(delay(1000));
-     this.response = await lastValueFrom(response$).then(res => {
-       this.employee = res
-       if (this.employee) {
-         this.form.patchValue(this.employee);
-       } else {
-         this.toastr.error(JSON.stringify(this.employee.message), JSON.stringify(this.employee.status), {
-           timeOut: 3000,
-           progressBar: true
-         });
-         this.location.back();
-       }
-     });
+    const response$ = this.dataService.getDataById(this.id);
+    this.response = await lastValueFrom(response$);
+    this.employee = this.response.data;
+
+    if (this.employee) {
+      this.form.patchValue(this.employee);
+    } else {
+      this.toastr.error(JSON.stringify(this.response.message), JSON.stringify(this.response.status), {
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.location.back();
+    }
     this.message = "Fetched";
   }
 
