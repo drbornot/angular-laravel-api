@@ -1,0 +1,49 @@
+<form (ngSubmit)="updateData()" [formGroup]="form" *ngIf="employee; else loading">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" class="form-control"
+           formControlName="name" [ngClass]="{'is-invalid' : f['name'].errors}">
+
+    <div *ngIf="f['name'].errors" class="invalid-feedback">
+<!--      <div *ngIf="f['name'].errors['required']">-->
+<!--        Name is required-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" class="form-control"
+           formControlName="email" [ngClass]="{'is-invalid' : f['email'].errors}">
+
+    <div *ngIf="f['email'].errors" class="invalid-feedback">
+<!--      <div *ngIf="f['email'].errors['required']">-->
+<!--        Email is required-->
+<!--      </div>-->
+
+<!--      <div *ngIf="f['email'].errors['email']">-->
+<!--        Email must be a valid email address-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="salary">Salary</label>
+    <input type="number" id="salary" class="form-control"
+           formControlName="salary" [ngClass]="{'is-invalid' : f['salary'].errors}">
+
+    <div *ngIf="f['salary'].errors" class="invalid-feedback">
+<!--      <div *ngIf="f['salary'].errors['required']">-->
+<!--        Salary is required-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary btn-sm" style="margin-right: 5px;" [disabled]="!form.valid">Update</button>
+    <button class="btn btn-secondary btn-sm" routerLink="/">Cancel</button>
+  </div>
+</form>
+<ng-template #loading>
+  {{ message }}
+</ng-template>
